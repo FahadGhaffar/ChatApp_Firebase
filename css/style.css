@@ -1,0 +1,214 @@
+
+
+
+
+
+@font-face {
+    font-family: myFirstFont;
+    src: url(static/DynaPuff/DynaPuff-Regular.ttf);
+}
+:root{
+    --myFirstFont:myFirstFont;
+    --temp:  rgb(232,140,55);
+    --grad: linear-gradient(114deg, #e88c37 0%, rgba(188,82,218,1) 87%);
+}
+
+body{
+
+    background-color: #cfb757;;
+    overflow-x: hidden;
+    position: relative;
+    /* color: white; */
+}
+
+ul{
+    list-style-type: none;
+}
+.Quiz_screen{
+
+    width: 100%;
+    height: 95vh;
+   
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.Quiz_box{
+  /* border: thick solid #0000FF ; */
+    box-shadow: rgb(31 48 12 / 25%) 0px 54px 55px, rgb(31 48 12 / 12%) 0px -12px 30px, rgb(31 48 12 / 12%) 0px 4px 6px, rgb(31 48 12 / 17%) 0px 12px 13px, rgb(31 48 12 / 9%) 0px -3px 5px;
+    border-radius: 10px;
+    background-color: rgb(234, 234, 234);
+    width: 600px;
+    height: 85vh;
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    padding: 0px 10px 0 10px;
+    
+ 
+
+}
+.question{
+    border-radius: 10px;
+    width: 100%;
+    height: 23vh;
+    background-color: #1f300c;
+      box-shadow: rgb(48 12 31 / 25%) 0px 54px 55px, rgb(48 12 31 / 12%) 0px -12px 30px, rgb(48 12 31 / 12%) 0px 4px 6px, rgb(48 12 31 / 17%) 0px 12px 13px, rgb(48 12 31 / 9%) 0px -3px 5px;
+    border-radius: 10px;
+    font-family: var(--myFirstFont);
+    margin: 5px 0 0 0;
+        display: flex;
+    justify-content: flex-start;
+   
+  
+}
+
+
+.option{
+       width: 100%;
+    height: 50vh;
+    /* border: thick solid #0000FF; */
+        display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+        padding: 0 60px 0 60px;
+
+}
+
+
+.option_one
+{
+    width: 100%;
+    height: 10vh;
+    background-color: #1f300c;
+      box-shadow: rgb(48 12 31 / 25%) 0px 54px 55px, rgb(48 12 31 / 12%) 0px -12px 30px, rgb(48 12 31 / 12%) 0px 4px 6px, rgb(48 12 31 / 17%) 0px 12px 13px, rgb(48 12 31 / 9%) 0px -3px 5px;
+    border-radius: 10px;
+    position: relative;
+    font-family: var(--myFirstFont);
+    padding: 0 0 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+
+
+}
+.option_one::before{
+    content: "";
+    position: absolute;
+    z-index: 10;
+    width: 13%;
+    height: 11vh;
+    background-color: #F4BB44;
+    border-radius: 50%;
+    margin: -2px 0 0 0;
+    cursor: pointer;
+ 
+}
+
+.option_one:hover,.submit:hover,.option_one>p:hover,.active>p,.submit1:hover{
+ 
+background-color: #1fffff;
+color: #000;
+cursor: pointer;
+
+
+}
+
+.option_one::marker{
+    /* background-color: #1fffff; */
+
+}
+
+.submit_button{
+    border-radius: 10px;
+    width: 100%;
+    height: 15vh;
+    /* border: thick solid #44ff00; */
+     display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.submit:active{
+    background-color: white;
+}
+.submit{
+    content: "Submit";
+    color: white;
+    border-radius: 10px;
+    font-family: var(--myFirstFont);
+    /* width: 20%; */
+    height: 11vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px 0 0 0;
+    cursor: pointer;
+     padding: 0px 6px 0 6px;
+    flex-wrap: wrap;
+         
+   
+     background-color: #1f300c;
+      box-shadow: rgb(48 12 31 / 25%) 0px 54px 55px, rgb(48 12 31 / 12%) 0px -12px 30px, rgb(48 12 31 / 12%) 0px 4px 6px, rgb(48 12 31 / 17%) 0px 12px 13px, rgb(48 12 31 / 9%) 0px -3px 5px;
+   
+
+}
+.submit1{
+    content: "Submit";
+    color: white;
+    border-radius: 10px;
+    font-family: var(--myFirstFont);
+    /* width: 30%; */
+    height: 11vh;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 10px 0 0 0;
+    cursor: pointer;
+        padding: 0px 6px 0 6px;
+    flex-wrap: wrap;
+         
+   
+     background-color: #1f300c;
+      box-shadow: rgb(48 12 31 / 25%) 0px 54px 55px, rgb(48 12 31 / 12%) 0px -12px 30px, rgb(48 12 31 / 12%) 0px 4px 6px, rgb(48 12 31 / 17%) 0px 12px 13px, rgb(48 12 31 / 9%) 0px -3px 5px;
+   
+
+}
+.option_one> p{
+
+        color: white;
+        font-family: var(--myFirstFont);
+        margin: 5px 0px 0px 80px;
+        font-size: 20px;
+}
+
+.question>p{
+
+    
+        color: white;
+        font-family: var(--myFirstFont);
+         margin: 10px 10px 0px 10px;
+        font-size: 20px;
+        text-align: center;
+}
+
+
+
+.active{
+
+background-color: #1fffff;
+color: black;
+
+}
+
+
+.display_none{
+
+
+    display: none;
+}
+
+
+
+
