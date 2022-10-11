@@ -7,6 +7,7 @@ import {
     signInWithEmailAndPassword,
     onAuthStateChanged,
     sendEmailVerification,
+    signOut
 } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-auth.js";
 import {
     doc,
@@ -70,16 +71,16 @@ const getUserFromDataBase = async (uid) => {
     let currentUser = document.getElementById("current-user");
     if (docSnap.exists()) {
         console.log(docSnap.data().name, docSnap.data().email)
-        currentUser.innerHTML = `${docSnap.data().name}     ${docSnap.data().email}  <button id=btnlogout> logout</button>`
+        currentUser.innerHTML = `${docSnap.data().name}     ${docSnap.data().email}  <button onclick="btnlogout()"> logout</button>`
     } else {
         console.log("No such document")
     }
 }
 
 
-btnlogout.addEventListener = async () => {
-
-    await firebase.auth().signOut()
+function btnlogout() {
+    const auth = getAuth();
+    signOut(auth)
         .then(() => {
             console.log('Sign-out successful.');
         })
@@ -89,3 +90,5 @@ btnlogout.addEventListener = async () => {
         });
 
 }
+
+window.btnlogout = btnlogout
