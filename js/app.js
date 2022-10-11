@@ -1,7 +1,28 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-analytics.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-auth.js";
+import {
+    getAuth,
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    onAuthStateChanged,
+    sendEmailVerification,
+} from "https://www.gstatic.com/firebasejs/9.11.0/firebase-auth.js";
+import {
+    doc,
+    setDoc,
+    getFirestore,
+    getDoc,
+    collection,
+    query,
+    where,
+    getDocs,
+    addDoc,
+    onSnapshot,
+    orderBy,
+    updateDoc,
+} from "https://www.gstatic.com/firebasejs/9.11.0/firebase-firestore.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyA4qx72QWcyccLIk9GRj5CwYCyA6VLlpxw",
     authDomain: "registrationwebapp-44b3d.firebaseapp.com",
@@ -15,6 +36,7 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+const db = getFirestore(app)
 
 const auth = getAuth();
 
@@ -22,7 +44,7 @@ const auth = getAuth();
 const signUpButton = document.getElementById('swap_slider_signup');
 const signInButton = document.getElementById('swap_slider_signin');
 const container = document.getElementById('container');
-const signupName = document.getElementById("signupName");
+const Username = document.getElementById("signupName");
 const singupEmail = document.getElementById("signupEmail");
 const signupPass = document.getElementById("signupPass");
 const signinEmail = document.getElementById("signinEmail");
@@ -42,13 +64,29 @@ signInButton.addEventListener('click', () => {
 
 SignUPInFirebase.addEventListener('click', () => {
     if (signupName.value && singupEmail.value && signupPass.value) {
+
         createUserWithEmailAndPassword(auth, singupEmail.value, signupPass.value)
-            .then((userCredential) => {
+            .then(async (userCredential) => {
+                let uid = userCredential.user.uid;
+                let firdoc = doc(db, "user", uid);
+                await setDoc(firdoc, {
+                    name: Username.value,
+                    email: singupEmail.value,
+                    password: signupPass.value
+
+
+                })
+
                 // Signed in 
                 const user = userCredential.user;
                 // ...
                 console.log(user)
                 container.classList.remove("right-panel-active");
+                Username.value = ""
+                singupEmail.value = ""
+                signupPass.value = ""
+
+
             })
             .catch((error) => {
                 const errorCode = error.code;
@@ -80,3 +118,39 @@ SignInInFirebase.addEventListener('click', () => {
             console.log(error)
         });
 })
+
+
+
+// window.onload = () => {
+
+
+//     onAuthStateChanged(auth, (user) => {
+//         if (user) {
+//             if (!user.emailVerified) {
+//                 // later use
+
+//             }
+
+//             getUserFromDataBase(user.uid)
+//         } else {
+//             console.log("not login")
+//         }
+
+//     });
+
+
+
+
+// }
+
+// const getUserFromDataBase = async (uid) => {
+
+//     const docRef = doc(db, "user", uid);
+//     const docSnap = await getDoc(docRef);
+//     let currentUser = document.getElementById("current-user");
+//     if (docSnap.exists()) {
+//         currentUser.innerHTML = `${docSnap.data().name}     ${docSnap.data().email}`
+//     } else {
+//         console.log("No such document")
+//     }
+// }
