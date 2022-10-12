@@ -41,6 +41,7 @@ const db = getFirestore(app)
 
 
 window.onload = () => {
+    let loader = document.getElementById("loader");
     console.log("ok")
     const auth = getAuth();
 
@@ -52,7 +53,10 @@ window.onload = () => {
             }
 
             getUserFromDataBase(user.uid)
+            // loader.style.display = "none"
         } else {
+            // window.location.assign("/login_signup/index.html")
+
             console.log("not login")
         }
 
@@ -83,6 +87,7 @@ function btnlogout() {
     signOut(auth)
         .then(() => {
             console.log('Sign-out successful.');
+            window.location.assign("/login_signup/index.html")
         })
         .catch((error) => {
             // An error happened

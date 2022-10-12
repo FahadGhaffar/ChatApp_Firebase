@@ -85,6 +85,7 @@ SignUPInFirebase.addEventListener('click', () => {
                 Username.value = ""
                 singupEmail.value = ""
                 signupPass.value = ""
+                window.location.assign("/login_signup/index.html")
 
 
             })
@@ -111,6 +112,7 @@ SignInInFirebase.addEventListener('click', () => {
             const user = userCredential.user;
             // ...
             console.log(user)
+            window.location.assign("/")
         })
         .catch((error) => {
             const errorCode = error.code;
@@ -121,27 +123,27 @@ SignInInFirebase.addEventListener('click', () => {
 
 
 
-// window.onload = () => {
+window.onload = () => {
 
 
-//     onAuthStateChanged(auth, (user) => {
-//         if (user) {
-//             if (!user.emailVerified) {
-//                 // later use
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            if (!user.emailVerified) {
+                // later use
 
-//             }
+            }
+            window.location.assign("/")
+            // getUserFromDataBase(user.uid)
+        } else {
+            console.log("not login")
+        }
 
-//             getUserFromDataBase(user.uid)
-//         } else {
-//             console.log("not login")
-//         }
-
-//     });
-
-
+    });
 
 
-// }
+
+
+}
 
 // const getUserFromDataBase = async (uid) => {
 
