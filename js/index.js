@@ -40,46 +40,46 @@ const db = getFirestore(app)
 
 
 
-window.onload = () => {
-    let loader = document.getElementById("loader");
-    console.log("ok")
-    const auth = getAuth();
+// window.onload = () => {
+//     let loader = document.getElementById("loader");
+//     console.log("ok")
+//     const auth = getAuth();
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            if (!user.emailVerified) {
-                // later use
+//     onAuthStateChanged(auth, (user) => {
+//         if (user) {
+//             if (!user.emailVerified) {
+//                 // later use
 
-            }
+//             }
 
-            getUserFromDataBase(user.uid)
-            loader.style.display = "none"
-        } else {
-            // window.location.assign("/login_signup/index.html")
-            loader.style.display = "none"
-            console.log("not login")
-        }
+//             getUserFromDataBase(user.uid)
+//             loader.style.display = "none"
+//         } else {
+//             // window.location.assign("/login_signup/index.html")
+//             loader.style.display = "none"
+//             console.log("not login")
+//         }
 
-    });
-
-
+//     });
 
 
-}
 
 
-const getUserFromDataBase = async (uid) => {
+// }
 
-    const docRef = doc(db, "user", uid);
-    const docSnap = await getDoc(docRef);
-    let currentUser = document.getElementById("current-user");
-    if (docSnap.exists()) {
-        console.log(docSnap.data().name, docSnap.data().email)
-        currentUser.innerHTML = `${docSnap.data().name}     ${docSnap.data().email}  <button onclick="btnlogout()"> logout</button>`
-    } else {
-        console.log("No such document")
-    }
-}
+
+// const getUserFromDataBase = async (uid) => {
+
+//     const docRef = doc(db, "user", uid);
+//     const docSnap = await getDoc(docRef);
+//     let currentUser = document.getElementById("current-user");
+//     if (docSnap.exists()) {
+//         console.log(docSnap.data().name, docSnap.data().email)
+//         currentUser.innerHTML = `${docSnap.data().name}     ${docSnap.data().email}  <button onclick="btnlogout()"> logout</button>`
+//     } else {
+//         console.log("No such document")
+//     }
+// }
 
 
 function btnlogout() {
