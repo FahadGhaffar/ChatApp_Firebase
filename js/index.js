@@ -53,10 +53,10 @@ window.onload = () => {
             }
 
             getUserFromDataBase(user.uid)
-            // loader.style.display = "none"
+            loader.style.display = "none"
         } else {
             // window.location.assign("/login_signup/index.html")
-
+            loader.style.display = "none"
             console.log("not login")
         }
 
