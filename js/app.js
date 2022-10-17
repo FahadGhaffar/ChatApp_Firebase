@@ -23,6 +23,13 @@ import {
     updateDoc,
 } from "https://www.gstatic.com/firebasejs/9.11.0/firebase-firestore.js";
 
+import {
+    getStorage,
+    ref,
+    uploadBytesResumable,
+    getDownloadURL,
+} from "https://www.gstatic.com/firebasejs/9.10.0/firebase-storage.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyA4qx72QWcyccLIk9GRj5CwYCyA6VLlpxw",
     authDomain: "registrationwebapp-44b3d.firebaseapp.com",
@@ -62,7 +69,8 @@ signInButton.addEventListener('click', () => {
 });
 
 
-SignUPInFirebase.addEventListener('click', () => {
+SignUPInFirebase.addEventListener('click', async () => {
+    let myFile = document.getElementById("my-file");
     if (signupName.value && singupEmail.value && signupPass.value) {
 
         createUserWithEmailAndPassword(auth, singupEmail.value, signupPass.value)
@@ -76,6 +84,14 @@ SignUPInFirebase.addEventListener('click', () => {
 
 
                 })
+                let file = myFile.files[0];
+                // const auth = getAuth();
+                // let uid = auth.currentUser.uid;
+                let url = await uploadFiles(file);
+                const washingtonRef = doc(db, "users", uid);
+                await updateDoc(washingtonRef, {
+                    profile: url,
+                });
 
                 // Signed in 
                 const user = userCredential.user;
@@ -95,6 +111,12 @@ SignUPInFirebase.addEventListener('click', () => {
                 // ..
                 console.log(error)
             });
+
+
+
+
+
+
 
     }
     else {
@@ -132,7 +154,7 @@ window.onload = () => {
                 // later use
 
             }
-            window.location.assign("/")
+            // window.location.assign("/")
             // getUserFromDataBase(user.uid)
         } else {
             console.log("not login")
@@ -156,3 +178,37 @@ window.onload = () => {
 //         console.log("No such document")
 //     }
 // }
+
+const uploadFiles = (file) => {
+    return new Promise((resolve, reject) => {
+        const storage = getStorage();
+        const auth = getAuth();
+        let uid = auth.currentUser.uid;
+        const storageRef = ref(storage, `users/${uid}.png`);
+        const uploadTask = uploadBytesResumable(storageRef, file);
+        uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+                const progress =
+                    (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                console.log("Upload is " + progress + "% done");
+                switch (snapshot.state) {
+                    case "paused":
+                        console.log("Upload is paused");
+                        break;
+                    case "running":
+                        console.log("Upload is running");
+                        break;
+                }
+            },
+            (error) => {
+                reject(error);
+            },
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    resolve(downloadURL);
+                });
+            }
+        );
+    });
+};
