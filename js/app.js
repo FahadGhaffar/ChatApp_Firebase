@@ -69,7 +69,7 @@ signInButton.addEventListener('click', () => {
 });
 
 
-SignUPInFirebase.addEventListener('click', async () => {
+SignUPInFirebase.addEventListener('click', () => {
     let myFile = document.getElementById("my-file");
     if (signupName.value && singupEmail.value && signupPass.value) {
 
@@ -87,8 +87,11 @@ SignUPInFirebase.addEventListener('click', async () => {
                 let file = myFile.files[0];
                 // const auth = getAuth();
                 // let uid = auth.currentUser.uid;
+                console.log("ok")
                 let url = await uploadFiles(file);
+                console.log("ok1")
                 const washingtonRef = doc(db, "users", uid);
+                console.log("ok2")
                 await updateDoc(washingtonRef, {
                     profile: url,
                 });
