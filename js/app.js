@@ -76,25 +76,21 @@ SignUPInFirebase.addEventListener('click', () => {
         createUserWithEmailAndPassword(auth, singupEmail.value, signupPass.value)
             .then(async (userCredential) => {
                 let uid = userCredential.user.uid;
-                let firdoc = doc(db, "user", uid);
-                await setDoc(firdoc, {
-                    name: Username.value,
-                    email: singupEmail.value,
-                    password: signupPass.value
-
-
-                })
                 let file = myFile.files[0];
                 // const auth = getAuth();
                 // let uid = auth.currentUser.uid;
                 console.log("ok")
                 let url = await uploadFiles(file);
-                console.log("ok1")
-                const washingtonRef = doc(db, "users", uid);
-                console.log("ok2")
-                await updateDoc(washingtonRef, {
+                let firdoc = doc(db, "users", uid);
+                await setDoc(firdoc, {
+                    name: Username.value,
+                    email: singupEmail.value,
+                    password: signupPass.value,
                     profile: url,
-                });
+
+
+                })
+
 
                 // Signed in 
                 const user = userCredential.user;
@@ -184,6 +180,7 @@ window.onload = () => {
 
 const uploadFiles = (file) => {
     return new Promise((resolve, reject) => {
+        console.log("upload")
         const storage = getStorage();
         const auth = getAuth();
         let uid = auth.currentUser.uid;
