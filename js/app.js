@@ -45,7 +45,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app)
 
-let auth = getAuth();
+const auth = getAuth();
 
 
 const signUpButton = document.getElementById('swap_slider_signup');
@@ -98,7 +98,7 @@ SignUPInFirebase.addEventListener('click', async () => {
                 Username.value = ""
                 singupEmail.value = ""
                 signupPass.value = ""
-                // window.location.assign("/login_signup/index.html")
+                window.location.assign("/")
 
 
             })

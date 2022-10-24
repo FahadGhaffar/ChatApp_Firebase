@@ -392,6 +392,12 @@ width: 100%;
     border-radius: 50%;
     margin: 0px 7px 0 0px;
 }
+.chat_user_logout_status > fa-solid{
+   
+  width: 100%;
+  height: 50px;
+
+}
 
 .chat_user_logout_menu{
         width: 50px;

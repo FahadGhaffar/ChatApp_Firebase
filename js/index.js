@@ -45,14 +45,14 @@ window.onload = () => {
     console.log("ok")
     const auth = getAuth();
 
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            if (!user.emailVerified) {
+    onAuthStateChanged(auth, (users) => {
+        if (users) {
+            if (!users.emailVerified) {
                 // later use
 
             }
-
-            getUserFromDataBase(user.uid)
+            console.log(users.uid);
+            getUserFromDataBase(users.uid)
             loader.style.display = "none"
         } else {
             // window.location.assign("/login_signup/index.html")
@@ -70,16 +70,38 @@ window.onload = () => {
 
 const getUserFromDataBase = async (uid) => {
 
-    const docRef = doc(db, "user", uid);
+    const docRef = doc(db, "users", uid);
     const docSnap = await getDoc(docRef);
     let currentUser = document.getElementById("current-user");
     if (docSnap.exists()) {
         console.log(docSnap.data().name, docSnap.data().email)
-        currentUser.innerHTML = `${docSnap.data().name}     ${docSnap.data().email}  <button onclick="btnlogout()"> logout</button>`
+        currentUser.innerHTML = `${docSnap.data().name}`
+        // currentUser.innerHTML = `${docSnap.data().name}     ${docSnap.data().email}  <button onclick="btnlogout()"> logout</button>`
+        getAllUsers(docSnap.data().email, uid, docSnap.data().name);
     } else {
         console.log("No such document")
     }
 }
+
+const getAllUsers = async (email, currentId, currentName) => {
+    const q = query(collection(db, "users"), where("email", "!=", email));
+    const querySnapshot = await getDocs(q);
+    let users = document.getElementById("users");
+    querySnapshot.forEach((doc) => {
+
+
+        console.log(doc.data().name)
+        // users.innerHTML += ` <div class="chat_user_info_detail_single_user">
+        //       <div class="chat_user_profile_image"></div>
+        //         <div class="chat_user_profile_name"> <h1>${doc.data().name}</h1> </div>   
+        //  </div>`
+
+
+        // users.innerHTML += `<li>${doc.data().name} <button onclick='startChat("${doc.id
+        //     }","${doc.data().name
+        //     }","${currentId}","${currentName}")' id="chat-btn">Start Chat</button></li>`;
+    });
+};
 
 
 function btnlogout() {
