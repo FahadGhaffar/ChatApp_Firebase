@@ -45,7 +45,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const db = getFirestore(app)
 
-const auth = getAuth();
+let auth = getAuth();
 
 
 const signUpButton = document.getElementById('swap_slider_signup');
@@ -69,38 +69,36 @@ signInButton.addEventListener('click', () => {
 });
 
 
-SignUPInFirebase.addEventListener('click', () => {
-    let myFile = document.getElementById("my-file");
+SignUPInFirebase.addEventListener('click', async () => {
+    // let myFile = document.getElementById("my-file");
     if (signupName.value && singupEmail.value && signupPass.value) {
 
         createUserWithEmailAndPassword(auth, singupEmail.value, signupPass.value)
             .then(async (userCredential) => {
-                let uid = userCredential.user.uid;
-                let file = myFile.files[0];
+                // let uid = userCredential.user.uid;
+
                 // const auth = getAuth();
-                // let uid = auth.currentUser.uid;
-                console.log("ok")
-                let url = await uploadFiles(file);
-                let firdoc = doc(db, "users", uid);
-                await setDoc(firdoc, {
+                let uid = auth.currentUser.uid;
+                let firDoc = doc(db, "users", uid);
+                await setDoc(firDoc, {
                     name: Username.value,
                     email: singupEmail.value,
                     password: signupPass.value,
-                    profile: url,
+
 
 
                 })
 
 
                 // Signed in 
-                const user = userCredential.user;
+                const user = userCredential.users;
                 // ...
                 console.log(user)
                 container.classList.remove("right-panel-active");
                 Username.value = ""
                 singupEmail.value = ""
                 signupPass.value = ""
-                window.location.assign("/login_signup/index.html")
+                // window.location.assign("/login_signup/index.html")
 
 
             })
@@ -113,8 +111,14 @@ SignUPInFirebase.addEventListener('click', () => {
 
 
 
-
-
+        // let file = myFile.files[0];
+        // auth = getAuth();
+        // let uid = auth.currentUser.uid;
+        // let url = await uploadFiles(file);
+        // const washingtonRef = doc(db, "users", uid);
+        // await updateDoc(washingtonRef, {
+        //     profile: url,
+        // });
 
 
     }
@@ -130,7 +134,7 @@ SignInInFirebase.addEventListener('click', () => {
     signInWithEmailAndPassword(auth, signinEmail.value, signinPass.value)
         .then((userCredential) => {
             // Signed in 
-            const user = userCredential.user;
+            const user = userCredential.users;
             // ...
             console.log(user)
             window.location.assign("/")
