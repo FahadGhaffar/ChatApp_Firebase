@@ -74,27 +74,31 @@ const getUserFromDataBase = async (uid) => {
     const docSnap = await getDoc(docRef);
     let currentUser = document.getElementById("current-user");
     if (docSnap.exists()) {
-        console.log(docSnap.data().name, docSnap.data().email)
+        console.log(docSnap.data().email, uid, docSnap.data().name)
         currentUser.innerHTML = `${docSnap.data().name}`
         // currentUser.innerHTML = `${docSnap.data().name}     ${docSnap.data().email}  <button onclick="btnlogout()"> logout</button>`
-        getAllUsers(docSnap.data().email, uid, docSnap.data().name);
+        await getAllUsers(docSnap.data().email, uid, docSnap.data().name);
     } else {
         console.log("No such document")
     }
 }
 
 const getAllUsers = async (email, currentId, currentName) => {
+    await console.log(email, currentId, currentName)
     const q = query(collection(db, "users"), where("email", "!=", email));
+
     const querySnapshot = await getDocs(q);
+    console.log(querySnapshot)
     let users = document.getElementById("users");
     querySnapshot.forEach((doc) => {
+        // console.log(querySnapshot)
 
 
         console.log(doc.data().name)
-        // users.innerHTML += ` <div class="chat_user_info_detail_single_user">
-        //       <div class="chat_user_profile_image"></div>
-        //         <div class="chat_user_profile_name"> <h1>${doc.data().name}</h1> </div>   
-        //  </div>`
+        users.innerHTML += ` <div class="chat_user_info_detail_single_user">
+              <div class="chat_user_profile_image"></div>
+                <div class="chat_user_profile_name"> <h1>${doc.data().name}</h1> </div>   
+         </div>`
 
 
         // users.innerHTML += `<li>${doc.data().name} <button onclick='startChat("${doc.id
