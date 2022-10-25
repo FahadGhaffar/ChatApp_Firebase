@@ -97,7 +97,9 @@ const getAllUsers = async (email, currentId, currentName) => {
         console.log(doc.data().name)
         users.innerHTML += ` <div class="chat_user_info_detail_single_user">
               <div class="chat_user_profile_image"></div>
-                <div class="chat_user_profile_name"> <h1>${doc.data().name}</h1> </div>   
+                <div class="chat_user_profile_name" onclick='startChat("${doc.id
+            }","${doc.data().name
+            }","${currentId}","${currentName}")'> <h1>${doc.data().name}</h1> </div>   
          </div>`
 
 
@@ -107,6 +109,62 @@ const getAllUsers = async (email, currentId, currentName) => {
     });
 };
 
+let unsubscribe;
+
+let startChat = (id, name, currentId, currentName) => {
+    console.log(id, name, currentId, currentName)
+    if (unsubscribe) {
+        unsubscribe();
+    }
+    let chatWith = document.getElementById("chat-with");
+    chatWith.innerHTML = name;
+    let send = document.getElementById("send");
+    let message = document.getElementById("message");
+    let chatID;
+    if (id < currentId) {
+        chatID = `${id}${currentId}`;
+    } else {
+        chatID = `${currentId}${id}`;
+    }
+    loadAllChats(chatID, currentId);
+    send.addEventListener("click", async () => {
+        let allMessages = document.getElementById("all-messages");
+        allMessages.innerHTML = "";
+        await addDoc(collection(db, "messages"), {
+            sender_name: currentName,
+            receiver_name: name,
+            sender_id: currentId,
+            receiver_id: id,
+            chat_id: chatID,
+            message: message.value,
+            timestamp: new Date(),
+        });
+    });
+};
+
+const loadAllChats = (chatID, currentId) => {
+    try {
+        const q = query(
+            collection(db, "messages"),
+            where("chat_id", "==", chatID),
+            // orderBy("timestamp", "asc")
+        );
+        let allMessages = document.getElementById("all-messages");
+        unsubscribe = onSnapshot(q, (querySnapshot) => {
+            allMessages.innerHTML = "";
+            querySnapshot.forEach((doc) => {
+                let className =
+                    doc.data().sender_id === currentId ? "my-message" : "user-message";
+                allMessages.innerHTML += `<li class="${className}">${doc.data().sender_name
+                    }: ${doc.data().message}</li>`;
+            });
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
+window.startChat = startChat;
 
 function btnlogout() {
     const auth = getAuth();
@@ -123,3 +181,5 @@ function btnlogout() {
 }
 
 window.btnlogout = btnlogout
+
+
