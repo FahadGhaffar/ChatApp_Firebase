@@ -134,20 +134,23 @@ let startChat = (id, name, currentId, currentName) => {
     } else {
         chatID = `${currentId}${id}`;
     }
-    // loadAllChats(chatID, currentId);
+    loadAllChats(chatID, currentId);
     send.addEventListener("click", async () => {
-        // let allMessages = document.getElementById("all-messages");
-        // allMessages.innerHTML = "";
+        let allMessages = document.getElementById("all-messages");
+        allMessages.innerHTML = "";
         console.log("send")
-        await addDoc(collection(db, "messages"), {
-            sender_name: currentName,
-            receiver_name: name,
-            sender_id: currentId,
-            receiver_id: id,
-            chat_id: chatID,
-            message: message.value,
-            timestamp: new Date(),
-        });
+        if (message) {
+            await addDoc(collection(db, "messages"), {
+                sender_name: currentName,
+                receiver_name: name,
+                sender_id: currentId,
+                receiver_id: id,
+                chat_id: chatID,
+                message: message.value,
+                timestamp: new Date(),
+            });
+        }
+        message.value = "";
     });
 };
 
@@ -164,7 +167,7 @@ const loadAllChats = (chatID, currentId) => {
             querySnapshot.forEach((doc) => {
                 let className =
                     doc.data().sender_id === currentId ? "my-message" : "user-message";
-                allMessages.innerHTML += `<li class="${className}">${doc.data().sender_name
+                allMessages.innerHTML += `<br/><li class="${className}">${doc.data().sender_name
                     }: ${doc.data().message}</li>`;
             });
         });

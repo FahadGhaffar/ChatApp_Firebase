@@ -438,6 +438,8 @@ width: 100%;
   background-color: rgb(167, 32, 32);
   display: flex;
   flex-direction: column;
+  position: static;
+  overflow: auto;
   
 }
 
