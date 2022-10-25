@@ -117,7 +117,15 @@ let startChat = (id, name, currentId, currentName) => {
         unsubscribe();
     }
     let chatWith = document.getElementById("chat-with");
-    chatWith.innerHTML = name;
+    chatWith.innerHTML = `  <div class="chat_user_profile">
+                <div class="chat_user_profile_image"></div>
+                <div class="chat_user_profile_name"> <h1 id="current-user">${name}</h1> </div>     
+            </div>  
+             <div class="chat_user_logout">
+                
+                <div class="chat_user_logout_menu"> <i class="fa-solid fa-ellipsis-vertical" ></i></div>
+            </div>
+            `;
     let send = document.getElementById("send");
     let message = document.getElementById("message");
     let chatID;
@@ -126,10 +134,11 @@ let startChat = (id, name, currentId, currentName) => {
     } else {
         chatID = `${currentId}${id}`;
     }
-    loadAllChats(chatID, currentId);
+    // loadAllChats(chatID, currentId);
     send.addEventListener("click", async () => {
-        let allMessages = document.getElementById("all-messages");
-        allMessages.innerHTML = "";
+        // let allMessages = document.getElementById("all-messages");
+        // allMessages.innerHTML = "";
+        console.log("send")
         await addDoc(collection(db, "messages"), {
             sender_name: currentName,
             receiver_name: name,
