@@ -167,7 +167,7 @@ const loadAllChats = (chatID, currentId) => {
             querySnapshot.forEach((doc) => {
                 let className =
                     doc.data().sender_id === currentId ? "my-message" : "user-message";
-                allMessages.innerHTML += `<br/><li class="${className}">${doc.data().sender_name
+                allMessages.innerHTML += `<li class="${className}">${doc.data().sender_name
                     }: ${doc.data().message}</li>`;
             });
         });
