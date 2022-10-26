@@ -159,7 +159,7 @@ const loadAllChats = (chatID, currentId) => {
         const q = query(
             collection(db, "messages"),
             where("chat_id", "==", chatID),
-            // orderBy("timestamp", "asc")
+            orderBy("timestamp", "desc")
         );
         let allMessages = document.getElementById("all-messages");
         unsubscribe = onSnapshot(q, (querySnapshot) => {
